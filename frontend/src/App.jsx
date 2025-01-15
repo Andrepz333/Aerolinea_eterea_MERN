@@ -1,9 +1,9 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Login from './pages/Login.jsx';
 import Home from './pages/Home.jsx';
-import CreateClient from './pages/createCliente.jsx';
-import CreatePasajero from './pages/CreatePasajero.jsx';
-import CreateVuelo from './pages/CreateVuelo.jsx';
+import CreateClient from './pages/CreateCliente.jsx';
+import GetClients from './pages/GetClients.jsx';
+
 
 
 function App () {
@@ -12,9 +12,8 @@ function App () {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path='/createCliente' element={<CreateClient />} />
-        <Route path='/createPasajero' element={<CreatePasajero />} />
-        <Route path='/createVuelo' element={<CreateVuelo />} />
         <Route path='/login' element={<Login />} />
+        <Route path='/getClientes' element={<GetClients />} />
       </Routes>
     </BrowserRouter>
 

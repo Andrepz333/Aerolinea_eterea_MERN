@@ -1,6 +1,3 @@
-import axios from 'axios';
+import axios from './axios.js';
 
-
-const API = 'http://localhost:4000/api'
-
-export const createRequest = user => axios.post(`${API}/createCliente`, user);
+export const createRequest = async (user) => axios.post(`/createCliente`, user);

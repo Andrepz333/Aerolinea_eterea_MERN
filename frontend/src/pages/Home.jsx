@@ -1,114 +1,99 @@
 import { useState } from "react";
-import { Link } from "react-router-dom"; // Asegúrate de usar React Router
-import renderImage from "../img/render.jpeg"
+import { Link } from "react-router-dom";
+import "react-responsive-carousel/lib/styles/carousel.min.css"; // Importa estilos del carrusel
+import { Carousel } from "react-responsive-carousel";
+import renderImage from "../img/Flux_Dev_creame_una_imagen_que_este_en_un_fondo_negro_con_un_a_0.jpeg";
+import image1 from "../img/Flux_Dev_Create_an_image_set_against_a_deep_rich_black_backgro_0.jpeg";
+import image2 from "../img/Flux_Dev_creame_una_imagen_que_este_en_un_fondo_negro_con_un_a_3.jpeg";
+import image3 from "../img/Flux_Dev_creame_una_imagen_que_este_en_un_fondo_negro_con_un_a_0.jpeg";
 
 function Home() {
   const [showMenu, setShowMenu] = useState(false);
 
-  const styles = {
-    container: {
-      fontFamily: "Arial, sans-serif",
-      margin: "0 auto",
-      textAlign: "center",
-      position: "relative",
-      overflow: "hidden",
-    },
-    header: {
-      backgroundColor: "red",
-      color: "white",
-      textShadow: "0 0  16px rgba(255, 255, 255, 0.9)",
-      padding: "10px 20px",
-      borderRadius: "8px",
-      marginBottom: "20px",
-      maxWidth: "5000px",
-      margin: "20px auto",
-    },
-    title: {
-      fontSize: "36px",
-      fontWeight: "bold",
-      margin: "10px 0",
-    },
-    button: {
-      backgroundColor: "white",
-      color: "red",
-      padding: "10px 20px",
-      borderRadius: "5px",
-      border: "none",
-      cursor: "pointer",
-      fontSize: "25px",
-    },
-    dropdown: {
-      marginTop: "10px",
-      display: showMenu ? "block" : "none",
-      
-    },
-    dropdownItem: {
-      margin: "10px 0",
-    },
-
-    image: {
-        width: "100%",
-        maxWidth: "800px",
-        borderRadius: "50%",
-        boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
-        margin: "20px auto",
-      },
-    dropdownLink: {
-      textDecoration: "none",
-      color: "white",
-      backgroundColor: "black",
-      padding: "10px 15px",
-      borderRadius: "5px",
-      fontSize: "14px",
-      display: "inline-block",
-      transition: "background-color 0.2s ease",
-    },
-    dropdownLinkHover: {
-      backgroundColor: "#f5f5f5",
-    },
-  };
-
   return (
-    <div style={styles.container}>
-      
-      <header style={styles.header}>
-        <h1 style={styles.title}>Bienvenido a nuestra Aerolínea Etérea</h1>
-        <button
-          style={styles.button}
-          onClick={() => setShowMenu((prev) => !prev)}
-        >
-          Explora nuestras funcionalidades
-        </button>
-        <div style={styles.dropdown}>
-          <div style={styles.dropdownItem}>
-            <Link to="/CreateCliente" style={styles.dropdownLink}>
-              Gestión de clientes
-            </Link>
-          </div>
-          <div style={styles.dropdownItem}>
-            <Link to="/CreatePasajero" style={styles.dropdownLink}>
-              Gestión de pasajeros
-            </Link>
-          </div>
-          <div style={styles.dropdownItem}>
-            <Link to="/vuelos" style={styles.dropdownLink}>
-              Gestión de vuelos
-            </Link>
+    <div className="font-sans text-gray-900">
+      {/* Barra de navegación y sección principal */}
+      <nav className="bg-red-800 text-white py-4 shadow-lg relative z-10">
+        <div className="max-w-6xl mx-auto px-4 flex justify-between items-center">
+          <h1 className="text-2xl font-bold text-white neon-text">Aerolínea Etérea</h1>
+
+          {/* Menú desplegable en la barra de navegación */}
+          <div className="relative">
+            <button
+              onClick={() => setShowMenu((prev) => !prev)}
+              className="bg-white text-red-500 px-4 py-2 rounded-md shadow-md text-lg font-semibold hover:bg-red-100 transition"
+            >
+              Explora nuestras funcionalidades
+            </button>
+            {showMenu && (
+              <div className="absolute left-0 mt-2 w-48 bg-gray-100 rounded-lg shadow-lg">
+                <ul className="space-y-2 p-2">
+                  <li>
+                    <Link
+                      to="/CreateCliente"
+                      className="block text-black hover:text-red-500 p-2"
+                    >
+                      Gestión de clientes
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      to="/CreatePasajero"
+                      className="block text-black hover:text-red-500 p-2"
+                    >
+                      Gestión de pasajeros
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      to="/vuelos"
+                      className="block text-black hover:text-red-500 p-2"
+                    >
+                      Gestión de vuelos
+                    </Link>
+                  </li>
+                </ul>
+              </div>
+            )}
           </div>
         </div>
-      </header>
+      </nav>
 
-      <img
-        src={renderImage}
-        alt="Render de la Aerolínea"
-        style={styles.image}
-      />
-
+      {/* Carrusel de imágenes */}
+      <div className="max-w-8xl mx-auto mt-10 z-0">
+        <Carousel
+          autoPlay
+          infiniteLoop
+          interval={3000}
+          showThumbs={false}
+          showStatus={false}
+          dynamicHeight={false}
+          className="shadow-lg rounded-lg"
+        >
+          <div>
+            <img src={renderImage} alt="Render de la Aerolínea" />
+            <p className="legend">Explora el Futuro</p>
+          </div>
+          <div>
+            <img src={image1} alt="Destinos Increíbles" />
+            <p className="legend">Destinos Increíbles</p>
+          </div>
+          <div>
+            <img src={image2} alt="Confort Absoluto" />
+            <p className="legend">Confort Absoluto</p>
+          </div>
+          <div>
+            <img src={image3} alt="Viajes Memorable" />
+            <p className="legend">Viajes Memorable</p>
+          </div>
+        </Carousel>
+      </div>
     </div>
   );
 }
 
 export default Home;
+
 
 
 

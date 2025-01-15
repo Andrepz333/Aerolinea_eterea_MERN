@@ -24,5 +24,5 @@ export const createClientesSchema = z.object({
     email: z
     .string({
         required_error: 'El email es requerido',
-    })
-});
+        }).email('Email invalido'),
+    });

@@ -30,7 +30,8 @@ export const getClientes = async (req, res) => {
 //http://localhost:4000/api/searchClienteByDocumentoOEmail
 export const searchClienteByDocumentoOEmail = async (req, res) => {
     try {
-        const { documento, email } = req.body;
+        const { documento, email } = req.query;
+        console.log('Datos recibidos en el backend:', { documento, email });
 
         // Verificar que al menos uno de los dos parámetros (documento o email) esté presente
         if (!documento && !email) {
@@ -58,22 +59,40 @@ export const searchClienteByDocumentoOEmail = async (req, res) => {
 //http://localhost:4000/api/updateCliente UPDATE
 export const updateCliente = async (req, res) => {
     try {
-        const { documento, nombre, apellido, direccion, telefono,  email } = req.body;
-        const cliente = await Clientes.findOne({documento: documento});
+        const { documento, nombre, apellido, direccion, telefono, email } = req.body;
+        
+        // Convertir explícitamente documento y teléfono a números
+        const docNumber = Number(documento);
+        const telNumber = Number(telefono);
+
+        // Validar que sean números válidos
+        if (isNaN(docNumber) || isNaN(telNumber)) {
+            return res.status(400).json({
+                message: 'El documento y teléfono deben ser números válidos'
+            });
+        }
+
+        const cliente = await Clientes.findOne({documento: docNumber});
+        
         if (!cliente) {
             return res.status(404).json({message: 'Cliente no encontrado'});
         }
+
         cliente.nombre = nombre;
         cliente.apellido = apellido;
         cliente.direccion = direccion;
-        cliente.telefono = telefono;
+        cliente.telefono = telNumber; // Usar el número convertido
         cliente.email = email;
+
         await cliente.save();
         res.json(cliente);
-        } catch (error) {
-            res.status(500).json({message: error.message});
-            }
-}
+    } catch (error) {
+        console.error('Error en updateCliente:', error);
+        res.status(500).json({message: error.message});
+    }
+};
+
+
 //http://localhost:4000/api/deleteCliente
 export const deleteCliente = async (req, res) => {
     try {
