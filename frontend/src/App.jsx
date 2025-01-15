@@ -7,6 +7,7 @@ import Register from './pages/Register.jsx';
 
 
 
+
 function App () {
   return (
     <BrowserRouter>
@@ -15,7 +16,12 @@ function App () {
         <Route path="/register" element={<Register/>} />
         <Route path='/createCliente' element={<CreateClient />} />
         <Route path='/home' element={<Home />} />
+        <Route path="/" element={<Login />} />
+        <Route path="/create" element={<Register/>} />
+        <Route path="/Home" element={<Home />} />
+        <Route path='/createCliente' element={<CreateClient />} />
         <Route path='/getClientes' element={<GetClients />} />
+
       </Routes>
     </BrowserRouter>
 

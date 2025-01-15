@@ -4,6 +4,7 @@ import { searchClientRequest } from "../api/clients.js";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { updateClientRequest, deleteClientRequest } from "../api/clients.js";
+import { Link } from "react-router-dom";
 
 function CreateClient() {
   const { register, handleSubmit, reset, setValue } = useForm();
@@ -124,15 +125,22 @@ return (
     <div className="bg-black min-h-screen">
       {/* Contenedor del título */}
       <div className="container mx-auto text-center py-6">
-        <h1
-          className="text-4xl font-bold"
+      <Link
+          to="/home"
+          className="text-4xl font-bold inline-block transition-transform transform hover:scale-105"
           style={{
             color: "rgb(255, 69, 0)",
             textShadow: "0 0 10px rgba(255, 69, 0, 0.8)",
+            backgroundColor: "transparent",
+            border: "2px solid rgba(255, 69, 0, 0.8)",
+            borderRadius: "8px",
+            padding: "10px 20px",
+            cursor: "pointer",
+            textDecoration: "none",
           }}
         >
-          Aerolinea eterea - MERN
-        </h1>
+          Aerolínea Etérea - MERN
+        </Link>
         <h2
           className="text-2xl font-bold mt-2"
           style={{
@@ -140,7 +148,7 @@ return (
             textShadow: "0 0 10px rgba(255, 255, 255, 0.8)",
           }}
         >
-        Gestion de clientes
+          Gestión de clientes
         </h2>
       </div>
 
