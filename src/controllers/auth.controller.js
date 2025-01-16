@@ -5,10 +5,10 @@ import { TOKEN_SECRET } from '../config.js';
 import { createAccessToken } from '../libs/jwt.js';
 
 
-//http://localhost:4000/api/register
+//http://localhost:4000/api/create
 export const create = async (req, res) => {
     try {
-        const { email, password} = req.body;
+        const { email, password,role} = req.body;
 
         const userFound = await User.findOne({ email });
 
@@ -20,7 +20,6 @@ export const create = async (req, res) => {
 
         const salt = await bcryptjs.genSalt(10);
         const hashedPassword = await bcryptjs.hash(password, salt);
-        const role = 'editor'
         const newUser = new User({ 
             email, 
             password: hashedPassword, 
