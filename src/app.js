@@ -5,6 +5,7 @@ import cors from 'cors';
 
 import authRoutes from './routes/auth.routes.js';
 import clientesRoutes from './routes/cliente.routes.js';
+import reservasRoutes from './routes/reserva.routes.js';
 
 const app = express();
 
@@ -22,6 +23,7 @@ app.use(cookieParser());
 
 app.use('/api', authRoutes);
 app.use('/api', clientesRoutes);
+app.use('/api', reservasRoutes);
 
 
 export default app;

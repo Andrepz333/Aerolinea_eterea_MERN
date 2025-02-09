@@ -2,12 +2,18 @@ import {useEffect} from "react";
 import {useForm} from 'react-hook-form'
 import {loginRequest} from "../api/auth.js"
 import { Link, useNavigate } from 'react-router-dom';
-
+import { Plane } from 'lucide-react';
+// Añadimos estos imports
+import { useDispatch } from 'react-redux';
+import { setUser } from "../features/authSlice";
 
 function Login(){
    
     const {register, handleSubmit, formState: {errors}} = useForm();
-    const navigate = useNavigate()
+    const navigate = useNavigate();
+    // Añadimos dispatch
+    const dispatch = useDispatch();
+
     useEffect(() => {
         const token = localStorage.getItem('token')
         if(token){
@@ -20,38 +26,82 @@ function Login(){
         }
         
     }, [navigate])
+
     return(
-       <div className="min-h-screen flex justify-center items-center bg-black-900">
-            <div className="bg-white max-w-md w-full p-10 rounded-md">
-                <h1 className="text-black text-3xl font-semibold mb-6 text-center">Iniciar Sesion</h1>
-            <form  onSubmit= {handleSubmit(async(data) => {
-                        const response = await loginRequest(data)
-                        console.log(response)
-                        console.log("Response Status:", response.status);
-                        if(response.status === 200 ){
-                            navigate('/Home')
+       <div className="min-h-screen bg-gradient-to-b from-white via-cyan-500 to-purple-500 flex justify-center items-center">
+            <div className="bg-black/40 backdrop-blur-lg rounded-xl p-10 max-w-md w-full shadow-2xl">
+                <Link
+                    to="/create"
+                    className="flex justify-center items-center gap-2 text-4xl font-bold mb-6"
+                >
+                    <Plane className="text-cyan-400 w-10 h-10" />
+                    <span className="bg-gradient-to-r from-cyan-400 to-white text-transparent bg-clip-text 
+                        hover:from-fuchsia-500 hover:to-cyan-400 transition-all duration-300">
+                        Ethereal Airline
+                    </span> 
+                </Link>
+
+                <h1 className="text-2xl font-bold text-center text-white mb-6">Login</h1>
+                <form onSubmit={handleSubmit(async(data) => {
+                        try {
+                            const response = await loginRequest(data);
+                            console.log("Login response:", response);
+                            
+                            if(response.status === 200 ){
+                                const userData = response.data.user;
+                                console.log("User data to be stored:", userData);
+                                
+                                localStorage.setItem('token', response.data.token);
+                                dispatch(setUser(userData));
+                                
+                                navigate('/Home');
+                            }
+                        } catch (error) {
+                            console.error("Login error:", error);
+                            alert('Error during login');
                         }
-                        else if (response.status === 400) {
-                            // Si las credenciales son incorrectas, mostrar alerta
-                            alert('Credenciales inválidas');
-                        } else {
-                            // Si el código de estado es distinto a 200 o 401, muestra un mensaje genérico
-                            alert('Ocurrió un error desconocido');
-                        }
-                    
-                })}
-                className="flex flex-col gap-3">
-                <input type="email" {...register("email", {required:true})}
-                className="w-full bg-zinc-300 text-white px-4 py-2 rounded-md my-2" placeholder="ingrese el correo"/>
-                {errors.email && <p className="text-black">El correo es requerido</p>}
-                <input type="password" {...register("password", {required:true})}
-                    className="w-full bg-zinc-300 text-white px-4 py-2 rounded-md my-2" placeholder="ingrese la contraseña"/>
-                {errors.password && <p className="text-black">La contraseña es requerida</p>}
-                <p className='flex gap-x-2 justify-between text-black'>Aún no tienes cuenta?<Link to="/create" className='text-black'>Registrate</Link></p>
-                <button type="submit" className="bg-red-700 text-white hover:bg-second py-3">Iniciar Sesion</button>
-            </form>
+                    })}
+
+                    className="space-y-4">
+                    <div className="relative">
+                      <input 
+                         type="email" 
+                         {...register("email", {required:true})}
+                         className="w-full bg-white/5 border border-cyan-400/30 rounded-lg p-3 text-white 
+                            focus:border-purple-400 focus:ring-1 focus:ring-purple-400 transition-all" 
+                         placeholder="ingrese el correo"
+                         />
+                        {errors.email && <p className="text-red-400 mt-1">El correo es requerido</p>}
+                    </div>
+
+                    <div className="relative">
+                <input 
+                 type="password" 
+                 {...register("password", {required:true})}
+                 className="w-full bg-white/5 border border-cyan-400/30 rounded-lg p-3 text-white 
+                            focus:border-purple-400 focus:ring-1 focus:ring-purple-400 transition-all" 
+                 placeholder="ingrese la contraseña"/>
+                 {errors.password && <p className="text-red-400 mt-1">La contraseña es requerida</p>}
+                 </div>
+
+                 <div className="flex justify-between items-center text-white">
+                        <p> Dont have an account?</p>
+                        <Link to="/create" className="text-cyan-400 hover:text-purple-400 transition-colors">
+                            Register here
+                        </Link>
+                    </div>
+                
+                    <button 
+                        type="submit" 
+                        className="w-full bg-gradient-to-r from-cyan-400 to-fuchsia-500 
+                        hover:from-fuchsia-500 hover:to-cyan-400 text-white font-bold py-3 
+                        rounded-full transition-all duration-300 shadow-lg"
+                    >
+                        Login
+                    </button>
+                </form>
+            </div>
         </div>
-    </div>
     );
 }
 
